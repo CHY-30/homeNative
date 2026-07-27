@@ -1,31 +1,45 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import AppText from './appText';
+import { Pressable, StyleSheet, View } from 'react-native';
+import AppText from './AppText';
 
 export default function Header() {
   return (
-    <View style={styles.container}>
-      {/* 텍스트뿐만 아니라 버튼, 아이콘 등 원하는 컴포넌트를 자유롭게 배치 */}
-      <TouchableOpacity onPress={() => console.log('뒤로가기')}>
-        <AppText size={16} weight="bold" color="#FFFFFF">← 뒤로</AppText>
-      </TouchableOpacity>
+    <View style={styles.header}>
+      <View style={styles.sideArea}>
+        <Pressable onPress={() => console.log('뒤로가기')}>
+          <AppText size={16} weight="bold" color="#FFFFFF">← 뒤로</AppText>
+        </Pressable>
+      </View>
 
-      <AppText size={18} weight="bold" color="#FFFFFF">페이지 타이틀</AppText>
+      <View style={styles.centerArea}>
+        <AppText size={18} weight="bold" color="#FFFFFF">페이지 타이틀</AppText>
+      </View>
 
-      <TouchableOpacity onPress={() => console.log('메뉴')}>
-        <AppText size={16} weight="bold" color="#FFFFFF">메뉴</AppText>
-      </TouchableOpacity>
+      <View style={styles.sideAreaRight}></View>
+      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  header: {
     height: 56,
     backgroundColor: '#1E293B',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: 16,
+  },
+  sideArea: {
+    flex: 1,
+    alignItems: 'flex-start', // 왼쪽 정렬
+  },
+  centerArea: {
+    // 가운데는 내용 크기만큼만 차지하고 정중앙 유지
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sideAreaRight: {
+    flex: 1,
+    alignItems: 'flex-end',   // 오른쪽 정렬
   },
 });

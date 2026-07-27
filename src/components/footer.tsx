@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import AppText from './appText';
+import AppText from './AppText';
 
 export default function Footer() {
   return (
