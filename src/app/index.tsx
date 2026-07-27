@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
+import AppText from '../components/appText';
 import PageLayout from '../components/pageLayout';
-import AppText from './appText';
 
 export default function MyScreen() {
   return (
