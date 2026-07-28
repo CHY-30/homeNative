@@ -1,8 +1,10 @@
 
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import AppText from '../../components/textAll';
 import PageLayout from '../_LayoutIndex';
 
 export default function index() {
@@ -56,7 +58,7 @@ export default function index() {
                     size={20}
                     color={keepLoggedIn ? '#007AFF' : '#ccc'}
                     />
-                    <Text style={styles.checkboxLabel}>로그인 상태 유지</Text>
+                    <AppText size={14} weight="500" color="#555555" style={{ marginLeft: 8 }}>로그인 상태 유지</AppText>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -64,16 +66,18 @@ export default function index() {
                     activeOpacity={0.8}
                     onPress={handleLogin}
                 >
-                    <Text style={styles.loginButtonText}>로그인</Text>
+                    <AppText size={16} weight="bold" color="#ffffff">로그인</AppText>
                 </TouchableOpacity>
 
                 <View style={styles.linkContainer}>
                     <TouchableOpacity>
-                        <Text style={styles.linkText}>아이디 / 비밀번호 찾기</Text>
+                        <AppText size={14} weight="600">아이디 / 비밀번호 찾기</AppText>
                     </TouchableOpacity>
                     <Text style={styles.divider}>|</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.linkText}>회원가입</Text>
+                    <TouchableOpacity
+                      onPress={() => router.push('/member/agree')}
+                    >
+                        <AppText size={14} weight="600">회원가입</AppText>
                     </TouchableOpacity>
                 </View>
               
@@ -101,10 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 24,
     // 그림자 효과 (iOS & Android)
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.3)',
     elevation: 2,
   },
   input: {
@@ -124,12 +125,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 20,
   },
-  checkboxLabel: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: '#555555',
-    fontWeight: '500',
-  },
   loginButton: {
     width: '100%',
     height: 50,
@@ -138,20 +133,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loginButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   linkContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 32,
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#4A4A4A',
-    fontWeight: '600',
   },
   divider: {
     marginHorizontal: 12,

@@ -8,7 +8,11 @@ import PageLayout from './_LayoutIndex';
 export default function index() {
 
   useEffect(() => {
-    router.push('/member/join');
+    const timer = setTimeout(() => {
+      router.replace('/member/join');
+    }, 0);
+
+    return () => clearTimeout(timer);
   },[]);
 
 
