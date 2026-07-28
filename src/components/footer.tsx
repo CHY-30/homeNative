@@ -8,7 +8,7 @@ export default function Footer() {
       {/* 하단 탭바나 하단 버튼 컴포넌트 배치 */}
       <TouchableOpacity style={styles.button} onPress={() => console.log('클릭')}>
         <AppText size={16} weight="bold" color="#FFFFFF">
-          하단 고정 버튼 / 탭바 컴포넌트
+          하단 고정 버튼 / 탭바 컴포넌트1
         </AppText>
       </TouchableOpacity>
     </View>
