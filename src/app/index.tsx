@@ -13,7 +13,7 @@ export default function MyScreen() {
 
         <AppText size={15} color="#475569" style={{ lineHeight: 22 }}>
           상단(Header)과 하단(Footer)은 커스텀 UI 컴포넌트로 분리되어 상/하단에 고정되고,
-          중단은 ScrollView, FlatList 등 원하는 스크롤/레이아웃으로 자유롭게 컨트롤 가능합니다.
+          중단은 ScrollView, FlatList 등 원하는 스크롤/레이아웃으로 자유롭게 컨트롤 가능합니다.11
         </AppText>
       </ScrollView>
       {/* =================================================== */}
