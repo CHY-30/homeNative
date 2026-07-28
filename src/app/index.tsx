@@ -1,8 +1,17 @@
+
+import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import AppText from '../components/textAll';
 import PageLayout from './_LayoutIndex';
 
 export default function index() {
+
+  useEffect(() => {
+    router.push('/member/join');
+  },[]);
+
+
   return (
     <PageLayout>
       {/* ==================== 중단 영역 ==================== */}
