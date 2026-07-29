@@ -7,7 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import AppText from '../../components/textAll';
 import PageLayout from './_LayoutMember';
 
-export default function join() {
+export default function login() {
 
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');

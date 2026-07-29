@@ -9,7 +9,7 @@ export default function index() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace('/member/join');
+      router.replace('/member/login');
     }, 0);
 
     return () => clearTimeout(timer);
