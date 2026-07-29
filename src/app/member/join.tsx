@@ -5,9 +5,9 @@ import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AppText from '../../components/textAll';
-import PageLayout from '../_LayoutIndex';
+import PageLayout from './_LayoutMember';
 
-export default function index() {
+export default function join() {
 
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
@@ -19,7 +19,12 @@ export default function index() {
   };
 
   return (
-    <PageLayout>
+    <PageLayout
+      title="< 로그인"
+      leftAction={{
+        onPress: () => router.back(),
+      }}
+    >
       <KeyboardAwareScrollView
       style={{ flex: 1 }}
       contentContainerStyle={{ flexGrow: 1 }}

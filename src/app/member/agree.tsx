@@ -1,12 +1,17 @@
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 import AppText from '../../components/textAll';
-import PageLayout from '../_LayoutIndex';
+import PageLayout from './_LayoutMember';
 
-export default function index() {
+export default function agree() {
 
   return (
-    <PageLayout>
+    <PageLayout
+      title="< 회원가입 약관동의"
+      leftAction={{
+        onPress: () => router.back(),
+      }}
+    >
       {/* ==================== 중단 영역 ==================== */}
       <ScrollView contentContainerStyle={{ padding: 20, flex: 1 }}>
         <View style={styles.container}>
