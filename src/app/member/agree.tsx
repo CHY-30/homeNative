@@ -1,7 +1,7 @@
 
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
 import AppText from '../../components/textAll';
 import PageLayout from './_LayoutMember';
@@ -9,8 +9,8 @@ import PageLayout from './_LayoutMember';
 export default function agree() {
 
     const [checkAll, setCheckAll] = useState(false);
-    const [checkService, setCheckService] = useState(true);
-    const [checkPrivacy, setCheckPrivacy] = useState(true);
+    const [checkService, setCheckService] = useState(false);
+    const [checkPrivacy, setCheckPrivacy] = useState(false);
 
     const isAllChecked = checkService && checkPrivacy;
 
@@ -20,17 +20,30 @@ export default function agree() {
       setCheckService(nextState);
       setCheckPrivacy(nextState);
     };
+
+    const handleCheckItem = (type: 'service' | 'privacy') => {
+      if (type === 'service') {
+        const nextService = !checkService;
+        setCheckService(nextService);
+        setCheckAll(nextService && checkPrivacy);
+      } else {
+        const nextPrivacy = !checkPrivacy;
+        setCheckPrivacy(nextPrivacy);
+        setCheckAll(checkService && nextPrivacy);
+      }
+    };
     
   return (
     <PageLayout
       title="< 회원가입 약관동의"
       leftAction={{
-        onPress: () => router.push('/member/join'),
+        onPress: () => router.push('/member/login'),
       }}
     >
       {/* ==================== 중단 영역 ==================== */}
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.card}>
+
           <Pressable style={styles.allAgreeContainer} onPress={handleCheckAll}>
             <View style={styles.allAgreeHeader}>
               <CustomCheck checked={checkAll} />
@@ -38,10 +51,53 @@ export default function agree() {
                 약관 내용을 확인하였으며, 모두 동의합니다.
               </AppText>
             </View>
-            <AppText size={12} color="#666666" style={{ textAlign: 'center' }}>
+            <AppText size={12} color="#666666" style={{ paddingLeft: 33 }}>
               공실클럽 이용약관, 개인정보 수집 및 이용 에 모두 동의 합니다.
             </AppText>
           </Pressable>
+
+          <View style={styles.divider} />
+
+          <View style={styles.termRow}>
+            <Pressable 
+              style={styles.termLeft} 
+              onPress={() => handleCheckItem('service')}
+            >
+              <CustomCheck checked={checkService} />
+              <AppText size={14} weight="500" color="#333333">(필수) 서비스 이용약관 동의</AppText>
+            </Pressable>
+            <TouchableOpacity 
+              style={styles.arrowButton} 
+              onPress={() => console.log('서비스 이용약관 상세')}
+            >
+              <ChevronRightIcon />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.termRow}>
+            <Pressable 
+              style={styles.termLeft} 
+              onPress={() => handleCheckItem('privacy')}
+            >
+              <CustomCheck checked={checkPrivacy} />
+              <AppText size={14} weight="500" color="#333333">(필수) 개인정보 수집 및 이용동의</AppText>
+            </Pressable>
+            <TouchableOpacity 
+              style={styles.arrowButton} 
+              onPress={() => console.log('개인정보 수집 상세')}
+            >
+              <ChevronRightIcon />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={[styles.submitButton, isAllChecked && styles.submitButtonActive]}
+            disabled={!isAllChecked}
+            onPress={() => router.push('/member/join')}
+          >
+            <AppText size={15} weight="700" color="#FFFFFF">휴대폰 인증하기</AppText>
+          </TouchableOpacity>
+          
         </View>
       </ScrollView>
       {/* =================================================== */}
@@ -66,6 +122,20 @@ function CustomCheck({ checked }: { checked: boolean }) {
   );
 }
 
+function ChevronRightIcon() {
+  return (
+    <Svg width={16} height={16} viewBox="0 0 24 24" fill="none">
+      <Polyline
+        points="9 18 15 12 9 6"
+        stroke="#AAAAAA"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -85,13 +155,30 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   allAgreeContainer: {
-    alignItems: 'center',
     marginBottom: 16,
   },
   allAgreeHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 6,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#EEEEEE',
+    marginVertical: 16,
+  },
+  termLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  termRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+  },
+  arrowButton: {
+    padding: 4,
   },
   checkCircle: {
     width: 22,
@@ -105,7 +192,19 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   checkCircleChecked: {
-    backgroundColor: 'blue',
-    borderColor: 'blue',
+    backgroundColor: '#003399',
+    borderColor: '#003399',
+  },
+  submitButton: {
+    width: '100%',
+    height: 48,
+    backgroundColor: '#D1D5DB',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  submitButtonActive: {
+    backgroundColor: '#003399',
   },
 });
