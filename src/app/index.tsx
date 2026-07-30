@@ -1,22 +1,46 @@
-import { ScrollView } from 'react-native';
-import AppText from '../components/AppText';
-import PageLayout from '../components/pageLayout';
 
-export default function MyScreen() {
+import { router } from 'expo-router';
+import { useEffect } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import AppText from '../components/textAll';
+import PageLayout from './_LayoutIndex';
+
+export default function index() {
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace('/member/login');
+    }, 0);
+
+    return () => clearTimeout(timer);
+  },[]);
+
+
   return (
     <PageLayout>
       {/* ==================== 중단 영역 ==================== */}
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <ScrollView contentContainerStyle={{ padding: 20, flex: 1 }}>
+        <View style={styles.container}>
         <AppText size={22} weight="bold" color="#0F172A" style={{ marginBottom: 12 }}>
-          중단 메인 콘텐츠
+          홈택트
         </AppText>
 
         <AppText size={15} color="#475569" style={{ lineHeight: 22 }}>
-          상단(Header)과 하단(Footer)은 커스텀 UI 컴포넌트로 분리되어 상/하단에 고정되고,
-          중단은 ScrollView, FlatList 등 원하는 스크롤/레이아웃으로 자유롭게 컨트롤 가능합니다.11
+          홈택트 설명..1
         </AppText>
+        </View>
       </ScrollView>
       {/* =================================================== */}
     </PageLayout>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

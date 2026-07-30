@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import AppText from './AppText';
+import AppText from './textAll';
 
 export default function Header() {
   return (
