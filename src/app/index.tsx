@@ -26,7 +26,7 @@ export default function index() {
         </AppText>
 
         <AppText size={15} color="#475569" style={{ lineHeight: 22 }}>
-          홈택트 설명..
+          홈택트 설명..1
         </AppText>
         </View>
       </ScrollView>
