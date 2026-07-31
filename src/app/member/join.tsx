@@ -1,5 +1,4 @@
-
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -7,6 +6,9 @@ import AppText from '../../components/textAll';
 import PageLayout from './_LayoutMember';
 
 export default function join() {
+
+    const { certificationToken } = useLocalSearchParams<{ certificationToken: string }>();
+    console.log(certificationToken);
 
     const [name, setName] = useState('');
     const [birthDate, setBirthDate] = useState('');
