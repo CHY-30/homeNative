@@ -1,7 +1,9 @@
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AppText from '../../components/textAll';
+
 
 interface PageLayoutProps {
   children: React.ReactNode; // 중단 영역 (FlatList, ScrollView, Custom View 등)
@@ -10,8 +12,13 @@ interface PageLayoutProps {
 }
 
 export default function PageLayout({ children, title, leftAction}: PageLayoutProps) {
+
+  const insets = useSafeAreaInsets();
+  
   return (
-    <SafeAreaView style={styles.container}>
+    <>
+    <StatusBar style="dark" animated={true} />
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF', paddingTop: insets.top, paddingBottom: insets.bottom }}>
       
       <View style={styles.header}>
         <TouchableOpacity onPress={leftAction.onPress}>
@@ -23,15 +30,12 @@ export default function PageLayout({ children, title, leftAction}: PageLayoutPro
         {children}
       </View>
 
-    </SafeAreaView>
+    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
   header: {
     height: 70,
     flexDirection: 'row',

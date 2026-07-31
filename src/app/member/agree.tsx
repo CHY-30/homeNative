@@ -1,4 +1,3 @@
-
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -93,7 +92,7 @@ export default function agree() {
           <TouchableOpacity
             style={[styles.submitButton, isAllChecked && styles.submitButtonActive]}
             disabled={!isAllChecked}
-            onPress={() => router.push('/member/join')}
+            onPress={() => router.push('/member/passWeb')}
           >
             <AppText size={15} weight="700" color="#FFFFFF">휴대폰 인증하기</AppText>
           </TouchableOpacity>

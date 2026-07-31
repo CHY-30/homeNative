@@ -7,13 +7,15 @@ import PageLayout from './_LayoutIndex';
 
 export default function index() {
 
+  
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace('/member/login');
+      router.push('/member/login');
     }, 0);
 
     return () => clearTimeout(timer);
   },[]);
+  
 
 
   return (
