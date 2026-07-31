@@ -22,7 +22,7 @@ export default function login() {
     <PageLayout
       title="< 로그인"
       leftAction={{
-        onPress: () => router.back(),
+        onPress: () => router.push('/'),
       }}
     >
       <KeyboardAwareScrollView
