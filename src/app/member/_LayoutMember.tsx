@@ -18,9 +18,9 @@ export default function PageLayout({ children, title, leftAction}: PageLayoutPro
   return (
     <>
     <StatusBar style="dark" animated={true} />
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF'}}>
+    <View style={[styles.root, { paddingTop: insets.top }]}>
       
-      <View style={{height: insets.top, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, borderBottomWidth: 1,borderBottomColor: '#E5E5EC'}}>
+      <View style={styles.header}>
         <TouchableOpacity onPress={leftAction.onPress}>
           <AppText size={20} weight="bold" color="#555555" style={{ marginLeft: 8 }}>{title}</AppText>
         </TouchableOpacity>
@@ -36,8 +36,18 @@ export default function PageLayout({ children, title, leftAction}: PageLayoutPro
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1, // 상단과 하단을 제외한 중단 전체 공간
+    backgroundColor: '#FFFFFF',
+  },
+  header: {
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
   body: {
     flex: 1, // 상단과 하단을 제외한 중단 전체 공간
-    paddingBottom:70,
   },
 });

@@ -2,7 +2,7 @@ import { freeApi } from '@/utils/api';
 import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Linking, Platform, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import PageLayout from './_LayoutMember';
 
 const WebView = Platform.OS === 'web' 
   ? null 
@@ -128,37 +128,44 @@ export default function passWeb() {
   }
   
   return (
-    <SafeAreaView style={styles.container}>
-      {certUrl ? (
-        Platform.OS === 'web' ? (
-          <View>
-            본인인증중
-          </View>
-        ) : (
-        <WebView
-          ref={webViewRef}
-          source={{ uri: certUrl }}
-          userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-          onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
-          onNavigationStateChange={handleNavigationStateChange}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          originWhitelist={['*']}
-          setSupportMultipleWindows={false}
-          javaScriptCanOpenWindowsAutomatically={true}
-          startInLoadingState={true}
-          incognito={true}
-          cacheEnabled={false}
-          renderLoading={() => (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#1A73E8" />
+    <PageLayout
+      title="< 본인인증"
+      leftAction={{
+        onPress: () => router.push('/member/agree'),
+      }}
+    >
+      <View style={styles.container}>
+        {certUrl ? (
+          Platform.OS === 'web' ? (
+            <View>
+              본인인증중
             </View>
-          )}
-          style={{ flex: 1 }}
-        />
-        )
-      ) : null}
-    </SafeAreaView>
+          ) : (
+          <WebView
+            ref={webViewRef}
+            source={{ uri: certUrl }}
+            userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
+            onNavigationStateChange={handleNavigationStateChange}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            originWhitelist={['*']}
+            setSupportMultipleWindows={false}
+            javaScriptCanOpenWindowsAutomatically={true}
+            startInLoadingState={true}
+            incognito={true}
+            cacheEnabled={false}
+            renderLoading={() => (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#1A73E8" />
+              </View>
+            )}
+            style={{ flex: 1 }}
+          />
+          )
+        ) : null}
+      </View>
+    </PageLayout>
   );
 }
 

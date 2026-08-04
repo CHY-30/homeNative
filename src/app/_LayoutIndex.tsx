@@ -14,7 +14,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
   return (
     <>
     <StatusBar style="dark" animated={true} />
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF', paddingTop: insets.top, paddingBottom: insets.bottom }}>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF', paddingTop: insets.top}}>
 
       <View style={styles.body}>
         {children}
