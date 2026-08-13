@@ -2,11 +2,8 @@ import { freeApi } from '@/utils/api';
 import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Linking, Platform, StyleSheet, View } from 'react-native';
+import WebView, { WebViewNavigation } from 'react-native-webview';
 import PageLayout from './_LayoutMember';
-
-const WebView = Platform.OS === 'web' 
-  ? null 
-  : require('react-native-webview').WebView;
 
 export default function passWeb() {
 
@@ -85,7 +82,7 @@ export default function passWeb() {
   };
 
   // 2. PASS 앱 실행(딥링크) 가로채기
-  const handleShouldStartLoadWithRequest = (request: any) => {
+  const handleShouldStartLoadWithRequest = (request: WebViewNavigation) => {
     if (Platform.OS === 'web') return true;
     
     const { url } = request;
@@ -102,7 +99,7 @@ export default function passWeb() {
   };
 
   // 3. 성공/완료 URL 감지 시 가로채서 회원가입으로 이동
-  const handleNavigationStateChange = (navState: any) => {
+  const handleNavigationStateChange = (navState: WebViewNavigation) => {
     const { url } = navState;
 
     if (url.includes('/member/join') || url.includes('/certification/success')) {
