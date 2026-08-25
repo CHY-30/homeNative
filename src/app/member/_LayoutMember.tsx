@@ -18,7 +18,7 @@ export default function PageLayout({ children, title, leftAction}: PageLayoutPro
   return (
     <>
     <StatusBar style="dark" animated={true} />
-    <View style={[styles.root, { paddingTop: insets.top }]}>
+    <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       
       <View style={styles.header}>
         <TouchableOpacity onPress={leftAction.onPress}>

@@ -10,6 +10,7 @@ import PageLayout from './_LayoutMember';
 export default function join() {
 
     interface joinForm{
+      certificationToken: string;
       userName: string;
       birthday: string;
       telephone: string;
@@ -63,6 +64,7 @@ export default function join() {
     } = useForm<joinForm>({
       mode: "onChange", // 실시간 검증
       defaultValues: {
+        certificationToken: cftoken,
         userName: "",
         birthday: "",
         telephone: "",
@@ -116,9 +118,23 @@ export default function join() {
     const isloginIdChecked = watch("isloginIdChecked");
 
     const onsubmit = async (data: joinForm) =>{
-
-      
-
+      try {
+          const payload = {
+            certificationToken: data.certificationToken,
+            loginId: data.loginId,
+            nickName: data.nickName,
+            telephone: data.telephone,
+            email: data.email,
+            password: data.password,
+            acceptedPrivacyTermsStatus: true,
+            acceptedOptionalTermsStatus: true
+          };
+          console.log(payload);
+          await freeApi.post('/api/accounts/sign-up', data);
+          alert('회원가입 완료');
+      } catch (err: any) {
+          alert(err.response.data.message);
+      }
     }
 
   return (
@@ -333,7 +349,8 @@ export default function join() {
                         onChange(text);
                       }}
                       value={value}
-                      maxLength={50}
+                      maxLength={20}
+                      secureTextEntry={true}
                     />
                   )}
                 />
@@ -361,7 +378,8 @@ export default function join() {
                         onChange(text);
                       }}
                       value={value}
-                      maxLength={50}
+                      maxLength={20}
+                      secureTextEntry={true}
                     />
                   )}
                 />
@@ -395,6 +413,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
+    maxWidth: 500,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 24,

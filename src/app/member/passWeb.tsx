@@ -1,85 +1,14 @@
-import { freeApi } from '@/utils/api';
-import { router } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useRef } from 'react';
 import { ActivityIndicator, Linking, Platform, StyleSheet, View } from 'react-native';
 import WebView, { WebViewNavigation } from 'react-native-webview';
 import PageLayout from './_LayoutMember';
 
 export default function passWeb() {
 
+  const { cftoken } = useLocalSearchParams<{ cftoken: string }>();
+  const certUrl = `https://dev.gongsiltoday.com/certification?token=${cftoken}`;
   const webViewRef = useRef<any>(null);
-  const [certUrl, setCertUrl] = useState<string>(''); // psss주소
-  const [loading, setLoading] = useState<boolean>(true);
-  const [cftoken, setCftoken] = useState<string>('');
-
-  useEffect(() => {
-    fetchCertToken();
-  }, []);
-
-
-  const fetchCertToken = async () => {
-
-    let popupWindow: Window | null = null;
-    if (Platform.OS === 'web') {
-      popupWindow = window.open(
-        'about:blank',
-        'PASS_AUTH',
-        'width=500,height=600,scrollbars=yes'
-      );
-    }
-
-    try {
-      // 본인인증 토큰 발급 API 호출
-      const response = await freeApi('/api/certifications/token/SIGN_UP');
-      const token = response.data.result.certificationToken;
-
-      if (token) {
-        
-        setCftoken(token);
-        const url = `https://dev.gongsiltoday.com/certification?token=${token}`;
-
-        if (Platform.OS === 'web' && popupWindow) {
-
-          popupWindow.location.href = url;
-          
-          const checkClosedTimer = setInterval(async () => {
-
-            if (popupWindow?.closed) {
-              clearInterval(checkClosedTimer);
-              try {
-                const verifyRes = await freeApi(`/api/certifications/verify?token=${token}&type=SIGN_UP`);
-  
-                if (verifyRes.data?.result === true || verifyRes.data?.code === '0') {
-                  console.log('인증 검증 성공!');
-                  router.replace({
-                    pathname: '/member/join',
-                    params: { cftoken: token },
-                  });
-                } else {
-                  console.log('인증이 정상적으로 완료되지 않았습니다.');
-                }
-              } catch (err) {
-                console.error('인증 검증 중 오류 발생 (사용자 취소 등):', err);
-              }
-            }
-          }, 500);
-
-        } else {
-          setCertUrl(url);
-        }
-      } else {
-        if (popupWindow) popupWindow.close();
-        alert('인증 토큰 발급에 실패했습니다.');
-        router.back();
-      }
-    } catch (error) {
-        if (popupWindow) popupWindow.close();
-        alert('통신 중 오류가 발생했습니다.');
-        router.back();
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // 2. PASS 앱 실행(딥링크) 가로채기
   const handleShouldStartLoadWithRequest = (request: WebViewNavigation) => {
@@ -115,14 +44,6 @@ export default function passWeb() {
       }
     }
   };
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#1A73E8" />
-      </View>
-    );
-  }
   
   return (
     <PageLayout
