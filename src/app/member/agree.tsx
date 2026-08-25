@@ -1,6 +1,7 @@
+import { freeApi } from '@/utils/api';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Svg, { Polyline } from 'react-native-svg';
 import AppText from '../../components/textAll';
 import PageLayout from './_LayoutMember';
@@ -29,6 +30,69 @@ export default function agree() {
         const nextPrivacy = !checkPrivacy;
         setCheckPrivacy(nextPrivacy);
         setCheckAll(checkService && nextPrivacy);
+      }
+    };
+
+    const fetchCertToken = async () => {
+
+      let popupWindow: Window | null = null;
+      if (Platform.OS === 'web') {
+        popupWindow = window.open(
+          'about:blank',
+          'PASS_AUTH',
+          'width=500,height=600,scrollbars=yes'
+        );
+      }
+  
+      try {
+        // 본인인증 토큰 발급 API 호출
+        const response = await freeApi('/api/certifications/token/SIGN_UP');
+        const token = response.data.result.certificationToken;
+  
+        if (token) {
+          
+          const url = `https://dev.gongsiltoday.com/certification?token=${token}`;
+  
+          if (Platform.OS === 'web' && popupWindow) {
+  
+            popupWindow.location.href = url;
+            
+            const checkClosedTimer = setInterval(async () => {
+  
+              if (popupWindow?.closed) {
+                clearInterval(checkClosedTimer);
+                try {
+                  const verifyRes = await freeApi(`/api/certifications/verify?token=${token}&type=SIGN_UP`);
+    
+                  if (verifyRes.data?.result === true || verifyRes.data?.code === '0') {
+                    console.log('인증 검증 성공!');
+                    router.replace({
+                      pathname: '/member/join',
+                      params: { cftoken: token },
+                    });
+                  } else {
+                    console.log('인증이 정상적으로 완료되지 않았습니다.');
+                  }
+                } catch (err) {
+                  console.error('인증 검증 중 오류 발생 (사용자 취소 등):', err);
+                }
+              }
+            }, 500);
+  
+          } else {
+            router.push(`/member/passWeb?cftoken=${token}`);
+          }
+        } else {
+          if (popupWindow) popupWindow.close();
+          alert('인증 토큰 발급에 실패했습니다.');
+          router.back();
+        }
+      } catch (error) {
+          if (popupWindow) popupWindow.close();
+          alert('통신 중 오류가 발생했습니다.');
+          router.back();
+      } finally {
+        //setLoading(false);
       }
     };
     
@@ -92,7 +156,7 @@ export default function agree() {
           <TouchableOpacity
             style={[styles.submitButton, isAllChecked && styles.submitButtonActive]}
             disabled={!isAllChecked}
-            onPress={() => router.push('/member/passWeb')}
+            onPress={() => fetchCertToken()}
           >
             <AppText size={15} weight="700" color="#FFFFFF">휴대폰 인증하기</AppText>
           </TouchableOpacity>
@@ -147,6 +211,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
+    maxWidth: 500,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 24,
